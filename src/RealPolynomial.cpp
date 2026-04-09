@@ -1,7 +1,7 @@
 #include "RealPolynomial.h"
 #include <iostream>
 
-RealPolynomial::RealPolynomial(std::vector<float> element)
+RealPolynomial::RealPolynomial(std::vector<double> element)
 {
     this->n = element.size();
     this->element = element;
@@ -30,14 +30,14 @@ void RealPolynomial::printPol()
     std::cout << std::endl;
 }
 
-float RealPolynomial::evaluate(float x)
+double RealPolynomial::evaluate(double x)
 {
     if(this->n == 1)
     {
         return this->element.at(0);
     }
 
-    float f = this->element.at(this->n-2) + x*this->element.at(this->n-1);
+    double f = this->element.at(this->n-2) + x*this->element.at(this->n-1);
 
     for(int i = n-3; i >= 0; i--)
     {
@@ -51,7 +51,7 @@ RealPolynomial* RealPolynomial::addPolynomial(RealPolynomial other)
 {
     int max = this->n > other.n ? this->n : other.n;
 
-    std::vector<float> new_vec{};
+    std::vector<double> new_vec{};
     for(int i = 0; i < max; i++)
     {
         if(i < this->n && i < other.n)
