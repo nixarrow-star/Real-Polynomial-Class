@@ -1,133 +1,151 @@
-# 📐 RealPolynomial — C++ Polynomial Library
+# 📐 RealPolynomial — C++ Polynomial Class
 
-A modern C++ implementation for manipulating real polynomials efficiently.
+A small C++ class for manipulating real polynomials stored with a `std::vector<double>`.
 
-## 🚀 Features
+## 🚀 Current Features
 
-- 📦 Polynomial representation using `std::vector<double>`
-- 🖨️ Pretty printing of polynomials
-- ⚡ Fast evaluation using Horner's method
-- ➕ Polynomial addition
-- ✖️ Fast multiplication using Karatsuba algorithm
-- 🧠 (Planned) Extended Euclidean algorithm
+- Polynomial representation using `std::vector<double>`
+- Printing a polynomial with `printPol()`
+- Polynomial evaluation with `evaluate(double x)`
+- Polynomial addition with `addPolynomial(RealPolynomial other)`
 
----
-
-## 📚 Representation
-
-A polynomial is stored as a vector:
+## 📚 Class Interface
 
 ```cpp
-std::vector<double> coeffs;
+#include <vector>
+
+class RealPolynomial
+{
+private:
+    int n{};
+    std::vector<double> element{};
+public:
+    RealPolynomial(std::vector<double> element);
+    ~RealPolynomial();
+    void printPol();
+    double evaluate(double x);
+    RealPolynomial* addPolynomial(RealPolynomial other);
+};
 ```
 
-Where:
+## Representation
 
-P(x) = a0 + a1 x + a2 x^2 + ... + an x^n
+The polynomial is stored as a vector of coefficients.
+
+```cpp
+std::vector<double> element;
+```
+
+With the convention:
+
+\[
+P(x) = a_0 + a_1 x + a_2 x^2 + \dots + a_n x^n
+\]
 
 Example:
 
 ```cpp
-// Represents 3 + 2x + 5x²
+// Represents 3 + 2x + 5x^2
 {3, 2, 5}
 ```
-
----
 
 ## 🛠️ Usage
 
 ### Create a Polynomial
 
 ```cpp
-RealPolynomial p({3, 2, 5}); // 3 + 2x + 5x²
+RealPolynomial p({3, 2, 5});
 ```
 
----
+This represents:
 
-### 🖨️ Print
+\[
+P(x) = 3 + 2x + 5x^2
+\]
+
+### Print a Polynomial
 
 ```cpp
-p.print(); 
-// Output: 5x^2 + 2x + 3
+p.printPol();
 ```
 
----
-
-### ⚡ Evaluate (Horner's Method)
-
-Efficient evaluation in O(n):
+Example output:
 
 ```cpp
-double result = p.evaluate(2.0);
+5x^2 + 2x + 3
 ```
 
----
+### Evaluate a Polynomial
 
-### ➕ Addition
+```cpp
+double value = p.evaluate(2.0);
+```
+
+Example:
+
+\[
+P(2) = 3 + 2 \cdot 2 + 5 \cdot 2^2 = 27
+\]
+
+### Add Two Polynomials
 
 ```cpp
 RealPolynomial p1({1, 2});
 RealPolynomial p2({3, 4, 5});
 
-RealPolynomial sum = p1 + p2;
+RealPolynomial* sum = p1.addPolynomial(p2);
+sum->printPol();
 ```
 
----
+This corresponds to:
 
-### ✖️ Multiplication (Karatsuba)
-
-```cpp
-RealPolynomial product = p1 * p2;
-```
-
-- Faster than naive O(n^2)
-- Uses divide & conquer
-
----
-
-## 🧠 Upcoming Features
-
-### Extended Euclidean Algorithm
-
-- Polynomial GCD computation
-- Bézout coefficients
-
----
+\[
+(1 + 2x) + (3 + 4x + 5x^2) = 4 + 6x + 5x^2
+\]
 
 ## 📈 Complexity
 
-| Operation       | Complexity              |
-|----------------|------------------------|
-| Evaluation     | O(n)                   |
-| Addition       | O(n)                   |
-| Multiplication | O(n^log₂3) ≈ O(n^1.585)|
+| Operation | Complexity |
+|----------|------------|
+| Printing | O(n) |
+| Evaluation | O(n) |
+| Addition | O(n) |
 
----
+## 🎯 Project Goal
 
-## 🎯 Goals
+This class is part of a polynomial manipulation project in C++, with the aim of progressively adding more advanced algorithms.
 
-- Clean and efficient implementation
-- Educational value (Horner & Karatsuba)
-- Extendable toward algebraic structures
+## 🔮 Planned Features
 
----
+- Multiplication with the Karatsuba algorithm
+- Extended Euclidean algorithm for polynomials
+- Better memory management
+- Operator overloading (`+`, `*`, `<<`, etc.)
+- Possible switch from raw pointers to safer return types
 
-## 💡 Possible Improvements
+## ⚠️ Current Notes
 
-- Complex coefficients
-- FFT-based multiplication
-- Sparse polynomial optimization
-
----
+- The class currently stores coefficients in a vector.
+- Addition currently returns a pointer: `RealPolynomial*`.
+- The internal field `n` likely represents the polynomial degree or size.
+- The interface is still evolving.
 
 ## 🧪 Example
 
 ```cpp
-RealPolynomial p({1, 2, 3});   // 1 + 2x + 3x²
-RealPolynomial q({4, 5});      // 4 + 5x
+RealPolynomial p({2, 1});     // 2 + x
+RealPolynomial q({4, 3, 1});  // 4 + 3x + x^2
 
-auto r = p * q;
+RealPolynomial* r = p.addPolynomial(q);
+r->printPol();
 
-r.print();
-// Expected: 3x^3 + 22x^2 + 13x + 4
+double y = r->evaluate(2.0);
 ```
+
+## Possible Future Improvements
+
+- Avoid manual memory handling
+- Add normalization for trailing zeros
+- Support multiplication and division
+- Add polynomial derivative and integral
+- Add unit tests
