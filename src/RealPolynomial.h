@@ -3,13 +3,23 @@
 class RealPolynomial
 {
 private:
-    int n{};
-    std::vector<double> element{};
+    int degree{};
+    std::vector<double> coeffs{};
 public:
-    RealPolynomial(std::vector<double> element);
+
+    RealPolynomial(std::vector<double> coeffs);
+    RealPolynomial(const RealPolynomial& other);
     ~RealPolynomial();
+
     void printPol();
     double evaluate(double x);
-    RealPolynomial* addPolynomial(RealPolynomial other);
+
+    bool operator==(const RealPolynomial& other);
+    RealPolynomial operator+(const RealPolynomial& other);
+    RealPolynomial operator-(const RealPolynomial& other);
+    RealPolynomial operator*(const RealPolynomial& other);
+
+    double getCoeff(size_t i);
+    void setCoeff(size_t i, double coeff);
 };
 
